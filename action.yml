@@ -30,4 +30,4 @@ runs:
     - name: Step one
       shell: bash
       run: |
-        echo "Got inputs.api_name ${inputs.api_name}"
+        echo "Got inputs.api_name ${{ inputs.api_name }}"
