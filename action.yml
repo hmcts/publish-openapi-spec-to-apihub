@@ -65,7 +65,7 @@ runs:
         SWAGGERHUB_API_KEY: ${{ inputs.swaggerhub_api_key }}
         OPENAPI_SPEC_FILE: ${{ steps.find_spec.outputs.openapi_spec_file }}
       run: |
-        echo "is_release: {{  inputs.is_release }}!"
+        echo "is_release: ${{  inputs.is_release }}!"
         if [[ "${{ inputs.is_release }}" == "true" ]]; then
           echo "PUBLIC: Publishing the RELEASED API to SwaggerHub"
           swaggerhub api:create "${CLI_API_REF}" --file "${OPENAPI_SPEC_FILE}" --published publish --visibility public
