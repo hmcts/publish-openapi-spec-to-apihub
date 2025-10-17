@@ -3,10 +3,10 @@ description: Runs swaggerhub cli to push openapi jarfile to APIHub
 
 on:
   workflow_call:
-    secrets:
-      SWAGGERHUB_API_KEY:
-        required: true
     inputs:
+      swaggerhub_api_key:
+        required: true
+        type: string
       upload_artifact_name:
         required: true
         type: string
