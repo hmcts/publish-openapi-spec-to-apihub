@@ -37,9 +37,11 @@ runs:
       uses: actions/setup-node@v5
 
     - name: Install SwaggerHub CLI
+      shell: bash
       run: npm install -g swaggerhub-cli
 
     - name: Set env variables in ${GITHUB_ENV}
+      shell: bash
       env:
         APIHUB_OWNER: ${{ inputs.apihub_owner }}
         API_NAME: ${{ inputs.api_name }}
@@ -59,6 +61,7 @@ runs:
 
     # https://github.com/SmartBear/swaggerhub-cli?tab=readme-ov-file#swaggerhub-apicreate
     - name: Push API definition into API Hub
+      shell: bash
       env:
         OPENAPI_SPEC_FILE: ${{ steps.find_spec.outputs.openapi_spec_file }}
       run: |
@@ -72,6 +75,7 @@ runs:
 
     # https://github.com/SmartBear/swaggerhub-cli?tab=readme-ov-file#swaggerhub-apiget
     - name: Check the API definition exists
+      shell: bash
       run: |
         set -o pipefail
         if ! swaggerhub api:get "${CLI_API_REF}" 2>&1 | tee error.log; then
@@ -83,6 +87,7 @@ runs:
 
     # https://github.com/SmartBear/swaggerhub-cli?tab=readme-ov-file#swaggerhub-apivalidate
     - name: Validate definition
+      shell: bash
       run: |
         set -o pipefail
         if ! swaggerhub api:validate "${CLI_API_REF}" 2>&1 | tee error.log; then
@@ -96,6 +101,7 @@ runs:
       # And then filter for those with sha snapshot versions i.e.  1.0.0-be4c28d
       # Then delete all those found
     - name: Delete snapshot versions
+      shell: bash
       if: inputs.is_release
       run: |
         set -o pipefail
@@ -116,6 +122,7 @@ runs:
 
       # https://github.com/SmartBear/swaggerhub-cli?tab=readme-ov-file#swaggerhub-apisetdefault
     - name: Set released version to the default API Definition
+      shell: bash
       if: inputs.is_release
       run: |
         swaggerhub api:setdefault "${CLI_API_REF}"
