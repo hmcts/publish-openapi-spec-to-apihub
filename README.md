@@ -16,15 +16,41 @@ Or the following example will pin to a specific major version:
 ## 📂 Example Workflow
 
 ```yaml
-name: Scan for Secrets
+on:
+  workflow_call:
+    secrets:
+      SWAGGERHUB_API_KEY:
+        required: true
+    inputs:
+      upload_artifact_name:
+        required: true
+        type: string
+      apihub_owner:
+        required: true
+        type: string
+      api_name:
+        required: true
+        type: string
+      api_version:
+        required: true
+        type: string
+      is_release:
+        required: false
+        type: boolean
+        default: false
 
 jobs:
-  scan:
+  Push-API-to-APIHub:
     runs-on: ubuntu-latest
     steps:
       - uses: hmcts/publish-openapi-spec-to-apihub@main
         with:
-          SWAGGERHUB_API_KEY: ${{ secrets.SWAGGERHUB_API_KEY }}
+          swaggerhub_api_key: ${{ secrets.SWAGGERHUB_API_KEY }}
+          upload_artifact_name: ${{ inputs.upload_artifact_name }}
+          apihub_owner: ${{ inputs.apihub_owner}}
+          api_name: ${{ inputs.api_name}}
+          api_version: ${{ inputs.api_version}}
+          is_release: ${{ inputs.is_release}}
 ```
 
 ### How to Tag
