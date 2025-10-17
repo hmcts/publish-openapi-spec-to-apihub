@@ -100,7 +100,7 @@ runs:
       # Then delete all those found
     - name: Delete snapshot versions
       shell: bash
-      if: ${{ inputs.is_release }} == "true"
+      if: ${{ inputs.is_release == "true" }}
       env:
         SWAGGERHUB_API_KEY: ${{ inputs.swaggerhub_api_key }}
       run: |
@@ -123,7 +123,7 @@ runs:
       # https://github.com/SmartBear/swaggerhub-cli?tab=readme-ov-file#swaggerhub-apisetdefault
     - name: Set released version to the default API Definition
       shell: bash
-      if: ${{ inputs.is_release }} == "true"
+      if: ${{ inputs.is_release == "true" }}
       env:
         SWAGGERHUB_API_KEY: ${{ inputs.swaggerhub_api_key }}
       run: |
