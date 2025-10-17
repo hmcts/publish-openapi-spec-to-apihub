@@ -26,8 +26,6 @@ on:
 
 runs:
   using: "composite"
-  env:
-    SWAGGERHUB_API_KEY: ${{ inputs.swaggerhub_api_key }}
   steps:
     - name: Download versioned OpenAPI spec
       uses: actions/download-artifact@v5
@@ -62,6 +60,7 @@ runs:
     # https://github.com/SmartBear/swaggerhub-cli?tab=readme-ov-file#swaggerhub-apicreate
     - name: Push API definition into API Hub
       env:
+        SWAGGERHUB_API_KEY: ${{ inputs.swaggerhub_api_key }}
         OPENAPI_SPEC_FILE: ${{ steps.find_spec.outputs.openapi_spec_file }}
       run: |
         if [[ "${{ inputs.is_release }}" == "true" ]]; then
@@ -74,6 +73,8 @@ runs:
 
     # https://github.com/SmartBear/swaggerhub-cli?tab=readme-ov-file#swaggerhub-apiget
     - name: Check the API definition exists
+      env:
+        SWAGGERHUB_API_KEY: ${{ inputs.swaggerhub_api_key }}
       run: |
         set -o pipefail
         if ! swaggerhub api:get "${CLI_API_REF}" 2>&1 | tee error.log; then
@@ -85,6 +86,8 @@ runs:
 
     # https://github.com/SmartBear/swaggerhub-cli?tab=readme-ov-file#swaggerhub-apivalidate
     - name: Validate definition
+      env:
+        SWAGGERHUB_API_KEY: ${{ inputs.swaggerhub_api_key }}
       run: |
         set -o pipefail
         if ! swaggerhub api:validate "${CLI_API_REF}" 2>&1 | tee error.log; then
@@ -99,6 +102,8 @@ runs:
       # Then delete all those found
     - name: Delete snapshot versions
       if: inputs.is_release
+      env:
+        SWAGGERHUB_API_KEY: ${{ inputs.swaggerhub_api_key }}
       run: |
         set -o pipefail
         echo "DELETING ${APIHUB_OWNER}/${API_NAME} snapshots"
@@ -119,5 +124,7 @@ runs:
       # https://github.com/SmartBear/swaggerhub-cli?tab=readme-ov-file#swaggerhub-apisetdefault
     - name: Set released version to the default API Definition
       if: inputs.is_release
+      env:
+        SWAGGERHUB_API_KEY: ${{ inputs.swaggerhub_api_key }}
       run: |
         swaggerhub api:setdefault "${CLI_API_REF}"
