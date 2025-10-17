@@ -54,6 +54,7 @@ runs:
         echo "Using CLI_API_REF=${CLI_API_REF}"
 
     - name: Find OpenAPI file
+      shell: bash
       id: find_spec
       run: |
         FILE=$(find ./${{ inputs.api_version }} -type f -name "*.yml" | head -n 1)
