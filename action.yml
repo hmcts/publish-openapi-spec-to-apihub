@@ -20,9 +20,8 @@ on:
         required: true
         type: string
       is_release:
-        required: false
+        required: true
         type: boolean
-        default: false
 
 runs:
   using: "composite"
