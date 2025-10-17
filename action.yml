@@ -51,7 +51,6 @@ runs:
         echo "API_NAME=${API_NAME}" >> "$GITHUB_ENV"
         echo "API_VERSION=${API_VERSION}" >> "$GITHUB_ENV"
         echo "CLI_API_REF=${APIHUB_OWNER}/${API_NAME}/${API_VERSION}" >> "$GITHUB_ENV"
-        echo "Using CLI_API_REF=${CLI_API_REF}"
 
     - name: Find OpenAPI file
       shell: bash
@@ -64,6 +63,7 @@ runs:
     - name: Push API definition into API Hub
       shell: bash
       env:
+        SWAGGERHUB_API_KEY: ${{ inputs.swaggerhub_api_key }}
         OPENAPI_SPEC_FILE: ${{ steps.find_spec.outputs.openapi_spec_file }}
       run: |
         if [[ "${{ inputs.is_release }}" == "true" ]]; then
