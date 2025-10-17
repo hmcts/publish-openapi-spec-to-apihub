@@ -77,6 +77,8 @@ runs:
     # https://github.com/SmartBear/swaggerhub-cli?tab=readme-ov-file#swaggerhub-apiget
     - name: Check the API definition exists
       shell: bash
+      env:
+        SWAGGERHUB_API_KEY: ${{ inputs.swaggerhub_api_key }}
       run: |
         set -o pipefail
         if ! swaggerhub api:get "${CLI_API_REF}" 2>&1 | tee error.log; then
@@ -89,6 +91,8 @@ runs:
     # https://github.com/SmartBear/swaggerhub-cli?tab=readme-ov-file#swaggerhub-apivalidate
     - name: Validate definition
       shell: bash
+      env:
+        SWAGGERHUB_API_KEY: ${{ inputs.swaggerhub_api_key }}
       run: |
         set -o pipefail
         if ! swaggerhub api:validate "${CLI_API_REF}" 2>&1 | tee error.log; then
@@ -104,6 +108,8 @@ runs:
     - name: Delete snapshot versions
       shell: bash
       if: inputs.is_release
+      env:
+        SWAGGERHUB_API_KEY: ${{ inputs.swaggerhub_api_key }}
       run: |
         set -o pipefail
         echo "DELETING ${APIHUB_OWNER}/${API_NAME} snapshots"
@@ -125,5 +131,7 @@ runs:
     - name: Set released version to the default API Definition
       shell: bash
       if: inputs.is_release
+      env:
+        SWAGGERHUB_API_KEY: ${{ inputs.swaggerhub_api_key }}
       run: |
         swaggerhub api:setdefault "${CLI_API_REF}"
