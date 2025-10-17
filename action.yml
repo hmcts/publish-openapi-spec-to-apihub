@@ -26,6 +26,8 @@ on:
 
 runs:
   using: "composite"
+  env:
+    SWAGGERHUB_API_KEY: ${{ inputs.swaggerhub_api_key }}
   steps:
     - name: Download versioned OpenAPI spec
       uses: actions/download-artifact@v5
